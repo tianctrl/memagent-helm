@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: memagent
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: memagent
+    spec:
+      containers:
+      - name: memagent
+        image: tianctrl/memagent-docker
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 11211
+        env:
+        - name: MASTER_IP
+          value: "-s 10.47.0.15:11211 -s 10.44.0.16:11211"
+        - name: BACKUP_IP
+          value: "-b 10.47.0.14:11211"
